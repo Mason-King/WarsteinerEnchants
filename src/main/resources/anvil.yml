@@ -1,0 +1,17 @@
+title: "&lAnvil"
+size: 27
+format:
+  - '! ! ! ! ! ! ! ! !'
+  - '! ! # ! @ ! ! ^ !'
+  - '! ! ! ! ! ! ! ! !'
+
+input: 11
+enchant: 13
+output: 16
+
+# '#' will automatically fill with player bans
+items:
+  '!':
+    material: RED_STAINED_GLASS_PANE
+    name: ""
+    lore: ""

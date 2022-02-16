@@ -1,0 +1,24 @@
+#Main config file
+#Developed by Mason King#9052
+
+enchantedBook:
+  #Placeholders {name} - name of enchant {roman} - roman numeral for number {number} - integer version of level
+  name: "&b&l{name} {roman}"
+  lore:
+    - "&7{description}"
+    - ""
+    - "&7&o(( Use /anvil to apply ))"
+
+
+enchants:
+  freeze:
+    #Name of the enchant
+    name: "Freeze"
+    #The amount of xp costed to apply
+    cost: 30
+    #Description of the enchants
+    desription: "Chance to give a player slowness when hit with a arrow"
+  toxic:
+    name: "Toxic"
+    description: "Chance that the target gets poison"
+    cost: 30

@@ -1,5 +1,5 @@
 name: CustomEnchants
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 main: customenchants.Main
 api-version: 1.18
 authors: [ Mason ]

@@ -1,5 +1,7 @@
 package customenchants.Managers;
 
+import customenchants.Enchants.FreezeEnchant;
+import customenchants.Enchants.ToxicEnchant;
 import customenchants.Reflection.MemberType;
 import customenchants.Reflection.ReflectionCache;
 import customenchants.Reflection.ReflectionDefinition;
@@ -31,6 +33,9 @@ public final class EnchantmentManager
     private final Set<Enchantment> customEnchantments;
     //private final BlastEnchantment blast;
 
+    private final FreezeEnchant freeze;
+    private final ToxicEnchant toxic;
+
     /**
      * Create a new EnchantmentManager.
      *
@@ -42,8 +47,12 @@ public final class EnchantmentManager
         this.customEnchantments = new HashSet<>();
 
         //this.blast = new BlastEnchantment(plugin);
+        this.freeze = new FreezeEnchant(plugin);
+        this.toxic = new ToxicEnchant(plugin);
 
         //customEnchantments.add(blast);
+        customEnchantments.add(freeze);
+        customEnchantments.add(toxic);
 
     }
 

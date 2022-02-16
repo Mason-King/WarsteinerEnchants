@@ -1,18 +1,20 @@
 package customenchants.Utils;
 
+import customenchants.Main;
+import customenchants.Managers.EnchantmentManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public final class EnchantmentUtils
 {
+
+    static Main main = Main.getInstance();
 
     private static final Set<Material> PICKAXE_TYPES = EnumSet.of(
             Material.WOODEN_PICKAXE,
@@ -27,6 +29,28 @@ public final class EnchantmentUtils
             Material.IRON_SWORD,
             Material.GOLDEN_SWORD,
             Material.DIAMOND_SWORD);
+
+    private static final Set<Material> ARMOR_TYPES = EnumSet.of(
+            Material.LEATHER_HELMET,
+            Material.LEATHER_CHESTPLATE,
+            Material.LEATHER_LEGGINGS,
+            Material.LEATHER_BOOTS,
+            Material.IRON_HELMET,
+            Material.IRON_CHESTPLATE,
+            Material.IRON_LEGGINGS,
+            Material.IRON_BOOTS,
+            Material.GOLDEN_HELMET,
+            Material.GOLDEN_CHESTPLATE,
+            Material.GOLDEN_LEGGINGS,
+            Material.GOLDEN_BOOTS,
+            Material.DIAMOND_HELMET,
+            Material.DIAMOND_CHESTPLATE,
+            Material.DIAMOND_LEGGINGS,
+            Material.DIAMOND_BOOTS,
+            Material.NETHERITE_HELMET,
+            Material.NETHERITE_CHESTPLATE,
+            Material.NETHERITE_LEGGINGS,
+            Material.NETHERITE_BOOTS);
 
     private static final Set<Material> BOW = EnumSet.of(
             Material.BOW);
@@ -44,6 +68,10 @@ public final class EnchantmentUtils
 
     public static boolean isSword(final ItemStack item) {
         return SWORD_TYPES.contains(item.getType());
+    }
+
+    public static boolean isArmor(final ItemStack item) {
+        return ARMOR_TYPES.contains(item.getType());
     }
 
     public static boolean isBow(final ItemStack item) {
@@ -91,4 +119,50 @@ public final class EnchantmentUtils
         //Simple as this! Glowing is handled automatically.
         itemStack.addEnchantment(enchantment, level);
     }
+
+    public static ItemStack enchantBook(final Enchantment enchantment, final int level) {
+
+        ItemStack book = new ItemStack(Material.BOOK);
+        ItemMeta im = book.getItemMeta();
+
+        List<String> lore = new ArrayList<>();
+
+        System.out.println(enchantment.getName().toLowerCase());
+
+        for(String s : main.getConfig().getStringList("enchantedBook.lore")) {
+            lore.add(color(s)
+                    .replace("{name}", enchantment.getName())
+                    .replace("{roman}", Roman.toRoman(level))
+                    .replace("{level}", level + "")
+                    .replace("{description}", main.getConfig().getString("enchants." + enchantment.getName().toLowerCase() + ".description")));
+        }
+
+        im.setLore(lore);
+        im.setDisplayName(color(main.getConfig().getString("enchantedBook.name")
+                .replace("{name}", enchantment.getName())
+                .replace("{roman}", Roman.toRoman(level))
+                .replace("{level}", level + "")));
+
+        book.setItemMeta(im);
+
+        return book;
+
+    }
+
+    public static Enchantment getEnchant(String name) {
+        Set<Enchantment> enchants = Main.getEnchantmentManager().getCustomEnchantments();
+
+        for(Enchantment e : enchants) {
+            if(e.getName().equalsIgnoreCase(name)) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public static String color(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
 }
