@@ -1,0 +1,7 @@
+name: CustomEnchants
+version: '${project.version}'
+main: customenchants.Main
+api-version: 1.18
+authors: [ Mason ]
+description: Custom enchant plugin for warstiner
+website: masonking.dev
