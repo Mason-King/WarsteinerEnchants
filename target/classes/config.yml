@@ -17,7 +17,7 @@ enchants:
     #The amount of xp costed to apply
     cost: 30
     #Description of the enchants
-    desription: "Chance to give a player slowness when hit with a arrow"
+    description: "Chance to give a player slowness when hit with a arrow"
   toxic:
     name: "Toxic"
     description: "Chance that the target gets poison"

@@ -79,6 +79,16 @@ public final class EnchantmentUtils
 
     }
 
+    public static boolean containsCustomEnchant(final ItemStack item) {
+        for(Map.Entry e : item.getEnchantments().entrySet()) {
+            for(Enchantment ench : Main.getEnchantmentManager().getCustomEnchantments()) {
+                if(e.getKey().equals(ench)) return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Because these are custom enchantments, the Minecraft client does not add them to the lore automatically.
      * As such, we have to add it ourselves.
