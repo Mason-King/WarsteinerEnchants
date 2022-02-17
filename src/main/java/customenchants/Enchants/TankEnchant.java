@@ -1,5 +1,8 @@
 package customenchants.Enchants;
 
+import customenchants.ArmorEquipAPI.ArmorEquipEvent;
+import customenchants.Utils.EnchantmentUtils;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -59,6 +62,31 @@ public class TankEnchant extends Enchantment implements Listener {
     }
 
     @EventHandler
-    public void 
+    public void onEquip(ArmorEquipEvent e) {
+        //check if they are equiping it
+        if(e.getNewArmorPiece() != null && e.getNewArmorPiece().getType() != Material.AIR) {
+            ItemStack newArmor = e.getNewArmorPiece();
+            if(!newArmor.containsEnchantment(this)) return;
+            int total = newArmor.getEnchantmentLevel(this);
+            for(ItemStack i : e.getPlayer().getInventory().getArmorContents()) {
+                if(i.equals(newArmor)) continue;
+                if(i.containsEnchantment(this)) {
+                    total = total + i.getEnchantmentLevel(this);
+                }
+            }
+            e.getPlayer().setHealth(e.getPlayer().getHealth() + (total * 0.5));
+        } else if (e.getOldArmorPiece() != null & e.getOldArmorPiece().getType() != Material.AIR) {
+            ItemStack newArmor = e.getNewArmorPiece();
+            if(!newArmor.containsEnchantment(this)) return;
+            int total = newArmor.getEnchantmentLevel(this);
+            for(ItemStack i : e.getPlayer().getInventory().getArmorContents()) {
+                if(i.equals(newArmor)) continue;
+                if(i.containsEnchantment(this)) {
+                    total = total + i.getEnchantmentLevel(this);
+                }
+            }
+            e.getPlayer().setHealth(e.getPlayer().getHealth() + (total * 0.5));
+        }
+    }
 
 }
