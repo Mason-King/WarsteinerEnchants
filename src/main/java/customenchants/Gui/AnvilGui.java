@@ -43,37 +43,25 @@ public class AnvilGui {
             if(slot == input) {
                 //They are putting an item in
                 if(anvil.getContents()[input] == null && anvil.getContents()[enchantment] != null) {
-                    //There is an item in both !
+
                     ItemStack tooEnchant = e.getCursor();
+                    ItemStack finalStack = tooEnchant.clone();
                     ItemStack book = anvil.getContents()[enchantment];
 
-                    //Checks if the item to enchant is a sword, pickaxe, bow, or armor. If its not then we dont enchant it!
-
-                    System.out.println(EnchantmentUtils.isSword(tooEnchant));
-                    if(!EnchantmentUtils.isSword(tooEnchant) || !EnchantmentUtils.isPickaxe(tooEnchant) || !EnchantmentUtils.isBow(tooEnchant) || !EnchantmentUtils.isArmor(tooEnchant)) return;
-                    System.out.println(1);
 
                     if(!book.getType().equals(Material.BOOK)) return;
-                    System.out.println(2);
                     if(book.getEnchantments() == null) return;
-                    System.out.println(3);
 
                     Enchantment ench = null;
                     int level = 0;
+
                     for(Map.Entry entry : book.getEnchantments().entrySet()) {
-                        if(book.containsEnchantment((Enchantment) entry.getKey())) {
-                            ench = (Enchantment) entry.getKey();
-                            level = (int) entry.getValue();
-                        }
+                        ench = (Enchantment) entry.getKey();
+                        level = (Integer) entry.getValue();
                     }
 
-                    System.out.println("Should have set the item herez");
-                    anvil.i(input, tooEnchant);
-                    e.setCursor(null);
-
-                    EnchantmentUtils.applyEnchantment(ench, tooEnchant, level);
-
-                    anvil.i(output, tooEnchant);
+                    EnchantmentUtils.applyEnchantment(ench, finalStack, level);
+                    anvil.i(output, finalStack);
 
                 }
                 if(anvil.getContents()[slot] == null) {
@@ -82,8 +70,31 @@ public class AnvilGui {
                 } else {
                     e.setCursor(anvil.getContents()[slot]);
                     anvil.i(slot, null);
+                    anvil.i(output, null);
                 }
             } else if(slot == enchantment) {
+                if(anvil.getContents()[input] != null && anvil.getContents()[enchantment] == null) {
+
+                    ItemStack tooEnchant = anvil.getContents()[input];
+                    ItemStack finalStack = tooEnchant.clone();
+                    ItemStack book = e.getCursor();
+
+
+                    if(!book.getType().equals(Material.BOOK)) return;
+                    if(book.getEnchantments() == null) return;
+
+                    Enchantment ench = null;
+                    int level = 0;
+
+                    for(Map.Entry entry : book.getEnchantments().entrySet()) {
+                        ench = (Enchantment) entry.getKey();
+                        level = (Integer) entry.getValue();
+                    }
+
+                    EnchantmentUtils.applyEnchantment(ench, finalStack, level);
+                    anvil.i(output, finalStack);
+
+                }
                 //they are putting in an a enchant!
                 if(anvil.getContents()[slot] == null) {
                     anvil.i(slot, e.getCursor());
@@ -91,7 +102,20 @@ public class AnvilGui {
                 } else {
                     e.setCursor(anvil.getContents()[slot]);
                     anvil.i(slot, null);
+                    anvil.i(output, null);
                 }
+            } else if(slot == output) {
+                if(anvil.getContents()[output] == null || (anvil.getContents()[input] == null) || (anvil.getContents()[enchantment] == null)) return;
+
+                ItemStack finalStack =  anvil.getContents()[output];
+
+                anvil.i(input, null);
+                anvil.i(enchantment, null);
+
+                e.setCursor(finalStack);
+
+                anvil.i(output, null);
+
             }
 
 

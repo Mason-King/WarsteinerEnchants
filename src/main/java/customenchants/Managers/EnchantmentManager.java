@@ -1,7 +1,6 @@
 package customenchants.Managers;
 
-import customenchants.Enchants.FreezeEnchant;
-import customenchants.Enchants.ToxicEnchant;
+import customenchants.Enchants.*;
 import customenchants.Reflection.MemberType;
 import customenchants.Reflection.ReflectionCache;
 import customenchants.Reflection.ReflectionDefinition;
@@ -35,6 +34,9 @@ public final class EnchantmentManager
 
     private final FreezeEnchant freeze;
     private final ToxicEnchant toxic;
+    private final DuplicationEnchant duplication;
+    private final ExperienceEnchant experience;
+    private final TankEnchant tank;
 
     /**
      * Create a new EnchantmentManager.
@@ -49,10 +51,16 @@ public final class EnchantmentManager
         //this.blast = new BlastEnchantment(plugin);
         this.freeze = new FreezeEnchant(plugin);
         this.toxic = new ToxicEnchant(plugin);
+        this.duplication = new DuplicationEnchant(plugin);
+        this.experience = new ExperienceEnchant(plugin);
+        this.tank = new TankEnchant(plugin);
 
         //customEnchantments.add(blast);
         customEnchantments.add(freeze);
         customEnchantments.add(toxic);
+        customEnchantments.add(duplication);
+        customEnchantments.add(experience);
+        customEnchantments.add(tank);
 
     }
 

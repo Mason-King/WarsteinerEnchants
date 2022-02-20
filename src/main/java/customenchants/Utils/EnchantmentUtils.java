@@ -2,6 +2,7 @@ package customenchants.Utils;
 
 import customenchants.Main;
 import customenchants.Managers.EnchantmentManager;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -122,7 +123,9 @@ public final class EnchantmentUtils
             }
         }
 
-        lore.add(enchantment.getKey().getKey() + " " + level);
+        lore.add(color(main.getConfig().getString("enchantmentLore")
+                .replace("{enchant}", WordUtils.capitalizeFully(enchantment.getKey().getKey()))
+                .replace("{level}", Roman.toRoman(level))));
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
 
@@ -136,8 +139,6 @@ public final class EnchantmentUtils
         ItemMeta im = book.getItemMeta();
 
         List<String> lore = new ArrayList<>();
-
-        System.out.println(enchantment.getName().toLowerCase());
 
         for(String s : main.getConfig().getStringList("enchantedBook.lore")) {
             lore.add(color(s)
@@ -154,6 +155,8 @@ public final class EnchantmentUtils
                 .replace("{level}", level + "")));
 
         book.setItemMeta(im);
+
+        book.addUnsafeEnchantment(enchantment, level);
 
         return book;
 

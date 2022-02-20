@@ -9,16 +9,23 @@ enchantedBook:
     - ""
     - "&7&o(( Use /anvil to apply ))"
 
+enchantmentLore: "&c&l{enchant} &7{level}"
+
 
 enchants:
   freeze:
-    #Name of the enchant
-    name: "Freeze"
-    #The amount of xp costed to apply
     cost: 30
     #Description of the enchants
     description: "Chance to give a player slowness when hit with a arrow"
   toxic:
-    name: "Toxic"
     description: "Chance that the target gets poison"
+    cost: 30
+  duplication:
+    description: "Chance to get double blocks"
+    cost: 30
+  tank:
+    description: "Gain extra hearts when applied to armor"
+    cost: 30
+  experience:
+    description: "Gain experience from stone, coal, and iron"
     cost: 30
