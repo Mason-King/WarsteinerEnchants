@@ -1,13 +1,12 @@
 package customenchants.Utils;
 
 import customenchants.Main;
-import customenchants.Managers.EnchantmentManager;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.StringUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -123,14 +122,16 @@ public final class EnchantmentUtils
             }
         }
 
+        String str = enchantment.getKey().getKey();
+
         lore.add(color(main.getConfig().getString("enchantmentLore")
-                .replace("{enchant}", WordUtils.capitalizeFully(enchantment.getKey().getKey()))
+                .replace("{enchant}", str.substring(0, 1).toUpperCase() + str.substring(1))
                 .replace("{level}", Roman.toRoman(level))));
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
 
         //Simple as this! Glowing is handled automatically.
-        itemStack.addEnchantment(enchantment, level);
+        itemStack.addUnsafeEnchantment(enchantment, level);
     }
 
     public static ItemStack enchantBook(final Enchantment enchantment, final int level) {
