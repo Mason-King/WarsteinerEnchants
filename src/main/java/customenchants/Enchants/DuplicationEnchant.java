@@ -85,8 +85,6 @@ public class DuplicationEnchant extends Enchantment implements Listener {
         Collection<ItemStack> drops = e.getBlock().getDrops();
 
         drops.add((ItemStack) drops);
-
-        System.out.println(e.getBlock().getDrops());
     }
 
 }

@@ -1,6 +1,7 @@
 package customenchants.Utils;
 
 import customenchants.Main;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -104,6 +105,7 @@ public final class EnchantmentUtils
 
     public static void applyEnchantment(final Enchantment enchantment, final ItemStack itemStack, final int level)
     {
+        int finalLevel = level;
         final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) return; //the item type is probably AIR so can't be enchanted.
 
@@ -118,7 +120,18 @@ public final class EnchantmentUtils
             if (existingLevel != 0) //Lore removal needed as some is present.
             {
                 //remove any old lore. Note that this way of doing it could break lore ordering.
-                lore.removeIf(line -> ChatColor.stripColor(line).matches(enchantment.getKey().getKey() + " " + existingLevel));
+                for(String s : itemMeta.getLore()) {
+                    if(ChatColor.stripColor(s).toLowerCase().contains(enchantment.getKey().getKey())) {
+                        lore.remove(itemMeta.getLore().indexOf(s));
+                    }
+                }
+            }
+        }
+
+        if(itemStack.containsEnchantment(enchantment)) {
+            int currLevel = itemStack.getEnchantmentLevel(enchantment);
+            if(currLevel == level) {
+                finalLevel = level + 1;
             }
         }
 
@@ -126,12 +139,14 @@ public final class EnchantmentUtils
 
         lore.add(color(main.getConfig().getString("enchantmentLore")
                 .replace("{enchant}", str.substring(0, 1).toUpperCase() + str.substring(1))
-                .replace("{level}", Roman.toRoman(level))));
+                .replace("{level}", Roman.toRoman(finalLevel))));
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
 
+
+
         //Simple as this! Glowing is handled automatically.
-        itemStack.addUnsafeEnchantment(enchantment, level);
+        itemStack.addUnsafeEnchantment(enchantment, finalLevel);
     }
 
     public static ItemStack enchantBook(final Enchantment enchantment, final int level) {

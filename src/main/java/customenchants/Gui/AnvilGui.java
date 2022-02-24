@@ -60,6 +60,8 @@ public class AnvilGui {
                         level = (Integer) entry.getValue();
                     }
 
+                    if(level < finalStack.getEnchantmentLevel(ench)) return;
+
                     EnchantmentUtils.applyEnchantment(ench, finalStack, level);
                     anvil.i(output, finalStack);
 
@@ -90,6 +92,8 @@ public class AnvilGui {
                         ench = (Enchantment) entry.getKey();
                         level = (Integer) entry.getValue();
                     }
+
+                    if(level < finalStack.getEnchantmentLevel(ench)) return;
 
                     EnchantmentUtils.applyEnchantment(ench, finalStack, level);
                     anvil.i(output, finalStack);
