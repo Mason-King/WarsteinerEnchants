@@ -72,9 +72,9 @@ public class DuplicationEnchant extends Enchantment implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Player broke = e.getPlayer();
 
-        if(broke.getInventory().getItemInMainHand() == null || broke.getInventory().getItemInMainHand().getType().equals(Material.AIR) || !broke.getInventory().getItemInMainHand().containsEnchantment(this)) return;
+        if(broke.getInventory().getItemInMainHand() == null || broke.getInventory().getItemInMainHand().getType().equals(Material.AIR) || !broke.getInventory().getItemInMainHand().getEnchantments().containsKey(this)) return;
 
-        int level = broke.getInventory().getItemInMainHand().getEnchantmentLevel(this);
+        int level = broke.getInventory().getItemInMainHand().getEnchantments().get(this);
 
         double chance = level / 2.0;
 
@@ -84,7 +84,10 @@ public class DuplicationEnchant extends Enchantment implements Listener {
 
         Collection<ItemStack> drops = e.getBlock().getDrops();
 
-        drops.add((ItemStack) drops);
+        for(ItemStack i : drops) {
+            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), i);
+        }
+
     }
 
 }

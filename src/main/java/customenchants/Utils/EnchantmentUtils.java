@@ -1,7 +1,6 @@
 package customenchants.Utils;
 
 import customenchants.Main;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -128,10 +127,12 @@ public final class EnchantmentUtils
             }
         }
 
-        if(itemStack.containsEnchantment(enchantment)) {
-            int currLevel = itemStack.getEnchantmentLevel(enchantment);
+        if(itemStack.getEnchantments().containsKey(enchantment)) {
+            int currLevel = itemStack.getEnchantments().get(enchantment);
             if(currLevel == level) {
                 finalLevel = level + 1;
+            } else {
+                finalLevel = currLevel;
             }
         }
 
@@ -180,6 +181,8 @@ public final class EnchantmentUtils
 
     public static Enchantment getEnchant(String name) {
         Set<Enchantment> enchants = Main.getEnchantmentManager().getCustomEnchantments();
+
+        System.out.println(enchants);
 
         for(Enchantment e : enchants) {
             if(e.getName().equalsIgnoreCase(name)) {

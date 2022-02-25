@@ -25,7 +25,6 @@ public class CeCommand implements CommandExecutor {
                     String enchantName = args[1];
                     int level = Integer.parseInt(args[2]);
                     Enchantment ench = EnchantmentUtils.getEnchant(enchantName);
-                    System.out.println(ench);
 
                     p.getInventory().addItem(EnchantmentUtils.enchantBook(ench, level));
                 }
