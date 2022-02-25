@@ -69,23 +69,26 @@ public class TankEnchant extends Enchantment implements Listener {
             if(!newArmor.containsEnchantment(this)) return;
             int total = newArmor.getEnchantmentLevel(this);
             for(ItemStack i : e.getPlayer().getInventory().getArmorContents()) {
+                if(i == null) continue;
                 if(i.equals(newArmor)) continue;
                 if(i.containsEnchantment(this)) {
                     total = total + i.getEnchantmentLevel(this);
                 }
             }
-            e.getPlayer().setHealth(e.getPlayer().getHealth() + (total * 0.5));
+            e.getPlayer().setMaxHealth(20 + (total * 0.5));
         } else if (e.getOldArmorPiece() != null & e.getOldArmorPiece().getType() != Material.AIR) {
             ItemStack newArmor = e.getNewArmorPiece();
-            if(!newArmor.containsEnchantment(this)) return;
-            int total = newArmor.getEnchantmentLevel(this);
+            ItemStack oldArmor = e.getOldArmorPiece();
+            if(!oldArmor.containsEnchantment(this)) return;
+            int total = 0;
             for(ItemStack i : e.getPlayer().getInventory().getArmorContents()) {
-                if(i.equals(newArmor)) continue;
+                if(i == null) continue;
+                if(i.equals(oldArmor)) continue;
                 if(i.containsEnchantment(this)) {
                     total = total + i.getEnchantmentLevel(this);
                 }
             }
-            e.getPlayer().setHealth(e.getPlayer().getHealth() + (total * 0.5));
+            e.getPlayer().setMaxHealth(20 + (total * 0.5));
         }
     }
 

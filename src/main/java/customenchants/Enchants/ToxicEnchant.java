@@ -75,12 +75,12 @@ public class ToxicEnchant extends Enchantment implements Listener {
         Player damager = (Player) e.getDamager();
         Player target = (Player) e.getEntity();
 
-        int level = target.getInventory().getItemInMainHand().getEnchantmentLevel(this);
+        int level = damager.getInventory().getItemInMainHand().getEnchantmentLevel(this);
 
         if(level == 0) return;
 
         double percentChance = level / 2.0;
-        double rolled = random.nextDouble(1);
+        double rolled = random.nextDouble(level * 2);
 
         if(rolled > percentChance) return;
 

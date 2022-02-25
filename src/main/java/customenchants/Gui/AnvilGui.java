@@ -29,6 +29,17 @@ public class AnvilGui {
         List<String> format = config.getStringList("format");
         makeFormat(config, anvil, format, "items");
 
+        anvil.onClose(e -> {
+            Player player = (Player) e.getPlayer();
+            int input = config.getInt("input");
+            int enchantment = config.getInt("enchant");
+            if(e.getInventory().getContents()[input] != null) {
+                player.getInventory().addItem(e.getInventory().getContents()[input]);
+            } else if(e.getInventory().getContents()[enchantment] != null) {
+                player.getInventory().addItem(e.getInventory().getContents()[enchantment]);
+            }
+        });
+
         anvil.onClick(e -> {
            Player clicked = (Player) e.getWhoClicked();
            int slot = e.getSlot();

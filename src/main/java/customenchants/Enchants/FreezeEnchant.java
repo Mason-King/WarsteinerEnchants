@@ -77,7 +77,6 @@ public class FreezeEnchant extends Enchantment implements Listener {
 
     @EventHandler
     public void onShoot(EntityShootBowEvent e) {
-        System.out.println("ran!");
         if(!(e.getEntity() instanceof Player)) return;
 
         Player shooter = (Player) e.getEntity();
@@ -88,7 +87,7 @@ public class FreezeEnchant extends Enchantment implements Listener {
 
         double chance = level / 1.0;
 
-        double rolled = random.nextDouble(1);
+        double rolled = random.nextDouble(level * 2);
 
         if(rolled > chance) return;
 

@@ -70,14 +70,13 @@ public class ExperienceEnchant extends Enchantment implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Player broke = e.getPlayer();
 
-        if(broke.getInventory().getItemInMainHand() == null || broke.getInventory().getItemInMainHand().getType().equals(Material.AIR) || !broke.getInventory().getItemInMainHand().containsEnchantment(this)) return;
+        if(broke.getInventory().getItemInMainHand() == null || broke.getInventory().getItemInMainHand().getType().equals(Material.AIR) || !broke.getInventory().getItemInMainHand().getEnchantments().containsKey(this)) return;
 
-        int level = broke.getInventory().getItemInMainHand().getEnchantmentLevel(this);
+        int level = broke.getInventory().getItemInMainHand().getEnchantments().get(this);
 
         double chance = level / 2.0;
 
-        double rolled = random.nextDouble(1);
-
+        double rolled = random.nextDouble(level * 2);
         if(rolled > chance) return;
 
         if(e.getBlock().getType().equals(Material.STONE) || e.getBlock().getType().equals(Material.IRON_ORE) || e.getBlock().getType().equals(Material.COAL_ORE)) {

@@ -68,6 +68,7 @@ public class DuplicationEnchant extends Enchantment implements Listener {
         return EnchantmentUtils.isPickaxe(itemStack);
     }
 
+    //Done
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
         Player broke = e.getPlayer();
@@ -78,7 +79,7 @@ public class DuplicationEnchant extends Enchantment implements Listener {
 
         double chance = level / 2.0;
 
-        double rolled = random.nextDouble(1);
+        double rolled = random.nextDouble(level * 2);
 
         if(rolled > chance) return;
 
