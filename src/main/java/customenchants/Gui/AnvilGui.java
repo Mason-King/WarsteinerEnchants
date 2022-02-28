@@ -1,5 +1,6 @@
 package customenchants.Gui;
 
+import com.google.gson.JsonObject;
 import customenchants.Main;
 import customenchants.Utils.EnchantmentUtils;
 import org.bukkit.ChatColor;
@@ -21,7 +22,12 @@ public class AnvilGui {
     private Main main = Main.getInstance();
     private File file = new File(main.getDataFolder().getAbsolutePath() + "/anvil.yml");
     private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-    
+
+    // TODO:
+    // - Check if item type
+    // - Check item level
+    // Check if cursor item is null!
+
     public Gui gui() {
         Gui anvil = new Gui(color(config.getString("title")), config.getInt("size")).c()
                 .noShifties();
@@ -53,77 +59,133 @@ public class AnvilGui {
 
             if(slot == input) {
                 //They are putting an item in
-                if(anvil.getContents()[input] == null && anvil.getContents()[enchantment] != null) {
-
-                    ItemStack tooEnchant = e.getCursor();
-                    ItemStack finalStack = tooEnchant.clone();
-                    ItemStack book = anvil.getContents()[enchantment];
-
-
-                    if(!book.getType().equals(Material.BOOK)) return;
-                    if(book.getEnchantments() == null) return;
-
-                    Enchantment ench = null;
-                    int level = 0;
-
-                    for(Map.Entry entry : book.getEnchantments().entrySet()) {
-                        ench = (Enchantment) entry.getKey();
-                        level = (Integer) entry.getValue();
+                if(anvil.getContents()[enchantment] != null) {
+                    //there is an enchant!
+                    if(anvil.getContents()[input] != null) {
+                        //there is already an item in this slot!
+                        if(e.getCursor() != null) {
+                            ItemStack tempInv = anvil.getContents()[input];
+                            anvil.i(input, e.getCursor());
+                            e.setCursor(tempInv);
+                        }
+                        return;
+                    } else {
+                        anvil.i(input, e.getCursor());
+                        e.setCursor(null);
                     }
-
-                    if(level < finalStack.getEnchantmentLevel(ench)) return;
-                    if(level > ench.getMaxLevel()) return;
-
-                    EnchantmentUtils.applyEnchantment(ench, finalStack, level);
-                    anvil.i(output, finalStack);
-
-                }
-                if(anvil.getContents()[slot] == null) {
-                    anvil.i(slot, e.getCursor());
-                    e.setCursor(null);
-                } else {
-                    e.setCursor(anvil.getContents()[slot]);
-                    anvil.i(slot, null);
-                    anvil.i(output, null);
-                }
-            } else if(slot == enchantment) {
-                if(e.getCursor().getAmount() > 1) {
-                    return;
-                }
-                if(anvil.getContents()[input] != null && anvil.getContents()[enchantment] == null) {
 
                     ItemStack tooEnchant = anvil.getContents()[input];
-                    ItemStack finalStack = tooEnchant.clone();
-                    ItemStack book = e.getCursor();
+                    ItemStack book = anvil.getContents()[enchantment];
 
+                    Enchantment enchant = null;
+                    int enchLevel = 0;
 
-                    if(!book.getType().equals(Material.BOOK)) return;
-                    if(book.getEnchantments() == null) return;
-
-                    Enchantment ench = null;
-                    int level = 0;
-
-                    for(Map.Entry entry : book.getEnchantments().entrySet()) {
-                        ench = (Enchantment) entry.getKey();
-                        level = (Integer) entry.getValue();
+                    for(Map.Entry en : book.getEnchantments().entrySet()) {
+                        if(main.getEnchantmentManager().getCustomEnchantments().contains((Enchantment) en.getKey())) {
+                            enchant = (Enchantment) en.getKey();
+                            enchLevel = (Integer) en.getValue();
+                        }
                     }
 
-                    System.out.println(level);
-                    System.out.println(finalStack.getEnchantments().get(ench));
+                    if(tooEnchant.containsEnchantment(enchant)) {
+                        int level = tooEnchant.getEnchantmentLevel(enchant);
+                        if(level == enchLevel && level + 1 > enchant.getMaxLevel()) {
+                            return;
+                        }
+                    }
+                    if(enchant.canEnchantItem(tooEnchant)) {
+                        ItemStack finalStack = tooEnchant.clone();
 
+                        EnchantmentUtils.applyEnchantment(enchant, finalStack, enchLevel);
 
-                    EnchantmentUtils.applyEnchantment(ench, finalStack, level);
-                    anvil.i(output, finalStack);
+                        anvil.i(output, finalStack);
+                    }
+                    return;
 
-                }
-                //they are putting in an a enchant!
-                if(anvil.getContents()[slot] == null) {
-                    anvil.i(slot, e.getCursor());
-                    e.setCursor(null);
                 } else {
-                    e.setCursor(anvil.getContents()[slot]);
-                    anvil.i(slot, null);
-                    anvil.i(output, null);
+                    //there inst an enchant
+                    if(anvil.getContents()[input] != null) {
+                        //there is already an item in this slot!
+                        if(e.getCursor() != null) {
+                            ItemStack tempInv = anvil.getContents()[input];
+                            anvil.i(input, e.getCursor());
+                            e.setCursor(tempInv);
+                        }
+                        return;
+                    } else {
+                        anvil.i(input, e.getCursor());
+                        e.setCursor(null);
+                        return;
+                    }
+                }
+            } else if(slot == enchantment) {
+                //They are putting an item in
+                if(anvil.getContents()[input] != null) {
+                    if(anvil.getContents()[input] != null) {
+                        System.out.println("item input");
+                        //there is already an item in this slot!
+                        if(e.getCursor() != null) {
+                            ItemStack tempInv = anvil.getContents()[enchantment];
+                            anvil.i(enchantment, e.getCursor());
+                            e.setCursor(tempInv);
+                        }
+                    } else {
+                        anvil.i(enchantment, e.getCursor());
+                        e.setCursor(null);
+                    }
+
+                    ItemStack tooEnchant = anvil.getContents()[input];
+                    ItemStack book = anvil.getContents()[enchantment];
+
+                    if(book == null) {
+                        if(e.getCursor() == null) {
+                            ItemStack tempInv = anvil.getContents()[enchantment];
+                            anvil.i(enchantment, e.getCursor());
+                            e.setCursor(tempInv);
+                            return;
+                        }
+                    }
+
+                    Enchantment enchant = null;
+                    int enchLevel = 0;
+
+                    for(Map.Entry en : book.getEnchantments().entrySet()) {
+                        if(main.getEnchantmentManager().getCustomEnchantments().contains((Enchantment) en.getKey())) {
+                            enchant = (Enchantment) en.getKey();
+                            enchLevel = (Integer) en.getValue();
+                        }
+                    }
+
+                    if(tooEnchant.containsEnchantment(enchant)) {
+                        int level = tooEnchant.getEnchantmentLevel(enchant);
+                        if(level == enchLevel && level + 1 > enchant.getMaxLevel()) {
+                            return;
+                        }
+                    }
+                    System.out.println(enchant.canEnchantItem(tooEnchant));
+                    if(enchant.canEnchantItem(tooEnchant)) {
+                        ItemStack finalStack = tooEnchant.clone();
+
+                        EnchantmentUtils.applyEnchantment(enchant, finalStack, enchLevel);
+
+                        anvil.i(output, finalStack);
+                    }
+                    return;
+
+                } else {
+                    if(anvil.getContents()[enchantment] != null) {
+                        //there is already an item in this slot!
+                        if(e.getCursor() != null) {
+                            ItemStack tempInv = anvil.getContents()[enchantment];
+                            anvil.i(enchantment, e.getCursor());
+                            e.setCursor(tempInv);
+                        }
+                        return;
+                    } else {
+                        anvil.i(enchantment, e.getCursor());
+                        e.setCursor(null);
+                        return;
+                    }
                 }
             } else if(slot == output) {
                 if(anvil.getContents()[output] == null || (anvil.getContents()[input] == null) || (anvil.getContents()[enchantment] == null)) return;
@@ -177,8 +239,8 @@ public class AnvilGui {
                             im.setLore(lore);
                             stack.setItemMeta(im);
 
-
                             gui.i((9 * i) + z, stack);
+
                         }
                     } else {
                         if (config.get(keyForItems + "." + individual) == null) {

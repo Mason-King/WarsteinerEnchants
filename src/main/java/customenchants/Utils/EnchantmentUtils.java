@@ -75,7 +75,7 @@ public final class EnchantmentUtils
     }
 
     public static boolean isBow(final ItemStack item) {
-        return BOW.contains(item);
+        return BOW.contains(item.getType());
 
     }
 
