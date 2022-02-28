@@ -7,3 +7,4 @@ description: Custom enchant plugin for warstiner
 website: masonking.dev
 commands:
   ce:
+  anvil:

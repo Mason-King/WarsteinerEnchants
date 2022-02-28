@@ -18,7 +18,7 @@ import java.util.SplittableRandom;
 public class ExperienceEnchant extends Enchantment implements Listener {
 
     private static final String ENCHANTMENT_NAME = "Experience";
-    private static final int MAX_LEVEL = 5;
+    private static final int MAX_LEVEL = 3;
     private final SplittableRandom random;
 
     public ExperienceEnchant(final JavaPlugin plugin) {

@@ -72,6 +72,7 @@ public class AnvilGui {
                     }
 
                     if(level < finalStack.getEnchantmentLevel(ench)) return;
+                    if(level > ench.getMaxLevel()) return;
 
                     EnchantmentUtils.applyEnchantment(ench, finalStack, level);
                     anvil.i(output, finalStack);
@@ -86,6 +87,9 @@ public class AnvilGui {
                     anvil.i(output, null);
                 }
             } else if(slot == enchantment) {
+                if(e.getCursor().getAmount() > 1) {
+                    return;
+                }
                 if(anvil.getContents()[input] != null && anvil.getContents()[enchantment] == null) {
 
                     ItemStack tooEnchant = anvil.getContents()[input];
@@ -104,7 +108,9 @@ public class AnvilGui {
                         level = (Integer) entry.getValue();
                     }
 
-                    if(level < finalStack.getEnchantmentLevel(ench)) return;
+                    System.out.println(level);
+                    System.out.println(finalStack.getEnchantments().get(ench));
+
 
                     EnchantmentUtils.applyEnchantment(ench, finalStack, level);
                     anvil.i(output, finalStack);

@@ -1,6 +1,7 @@
 package customenchants.Commands;
 
 import customenchants.Gui.AnvilGui;
+import customenchants.Gui.CeGui;
 import customenchants.Managers.EnchantmentManager;
 import customenchants.Utils.EnchantmentUtils;
 import org.bukkit.command.Command;
@@ -14,7 +15,7 @@ public class CeCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
         if(args.length == 0) {
-            new AnvilGui().gui().show(p);
+            new CeGui().gui().show(p);
         } else {
             if(args[0].equalsIgnoreCase("book")) {
                 //enchanted book
@@ -25,7 +26,14 @@ public class CeCommand implements CommandExecutor {
                     String enchantName = args[1];
                     int level = Integer.parseInt(args[2]);
                     Enchantment ench = EnchantmentUtils.getEnchant(enchantName);
-
+                    if(ench == null) {
+                        p.sendMessage(EnchantmentUtils.color("&c&lEnchants &7| Invalid enchantment!"));
+                        return false;
+                    }
+                    if(level > ench.getMaxLevel()) {
+                        p.sendMessage(EnchantmentUtils.color("&c&lEnchants &7| Specified level is higher then the max level!"));
+                        return false;
+                    }
                     p.getInventory().addItem(EnchantmentUtils.enchantBook(ench, level));
                 }
             }

@@ -1,0 +1,57 @@
+title: "&lAnvil"
+size: 27
+format:
+  - '! ! ! ! ! ! ! ! !'
+  - '! ! # $ @ & ^ ! !'
+  - '! ! ! ! ! ! ! ! !'
+
+input: 11
+enchant: 13
+output: 16
+
+# '#' will automatically fill with player bans
+items:
+  '!':
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&c"
+    lore: ""
+  '#':
+    material: BOOK
+    name: "&c&lFreeze"
+    lore:
+      - "&7Chance to give a player slowness when hit with a arrow"
+      - ""
+      - "&c&lMax Level&7: 1"
+      - "&c&lApplicable&7: Bows"
+  '$':
+    material: BOOK
+    name: "&c&lDuplication"
+    lore:
+      - "&7Chance to get double blocks"
+      - ""
+      - "&c&lMax Level&7: 4"
+      - "&c&lApplicable&7: Pickaxe"
+  '@':
+    material: BOOK
+    name: "&c&lExperience"
+    lore:
+      - "&7Gain experience from stone, coal, and iron"
+      - ""
+      - "&c&lMax Level&7: 3"
+      - "&c&lApplicable&7: Pickaxe"
+  '&':
+    material: BOOK
+    name: "&c&lTank"
+    lore:
+      - "&7Gain extra hearts when applied to armor"
+      - ""
+      - "&c&lMax Level&7: 2"
+      - "&c&lApplicable&7: Armor"
+  '^':
+    material: BOOK
+    name: "&c&lToxic"
+    lore:
+      - "&7Chance that the target gets poison"
+      - ""
+      - "&c&lMax Level&7: 3"
+      - "&c&lApplicable&7: Sword"
