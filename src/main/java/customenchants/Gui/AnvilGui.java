@@ -66,6 +66,7 @@ public class AnvilGui {
                         if(e.getCursor() != null) {
                             ItemStack tempInv = anvil.getContents()[input];
                             anvil.i(input, e.getCursor());
+                            anvil.i(output, null);
                             e.setCursor(tempInv);
                         }
                         return;
@@ -87,8 +88,8 @@ public class AnvilGui {
                         }
                     }
 
-                    if(tooEnchant.containsEnchantment(enchant)) {
-                        int level = tooEnchant.getEnchantmentLevel(enchant);
+                    if(tooEnchant.getEnchantments().containsKey(enchant)) {
+                        int level = tooEnchant.getEnchantments().get(enchant);
                         if(level == enchLevel && level + 1 > enchant.getMaxLevel()) {
                             return;
                         }
@@ -109,6 +110,7 @@ public class AnvilGui {
                         if(e.getCursor() != null) {
                             ItemStack tempInv = anvil.getContents()[input];
                             anvil.i(input, e.getCursor());
+                            anvil.i(output, null);
                             e.setCursor(tempInv);
                         }
                         return;
@@ -122,11 +124,11 @@ public class AnvilGui {
                 //They are putting an item in
                 if(anvil.getContents()[input] != null) {
                     if(anvil.getContents()[input] != null) {
-                        System.out.println("item input");
                         //there is already an item in this slot!
                         if(e.getCursor() != null) {
                             ItemStack tempInv = anvil.getContents()[enchantment];
                             anvil.i(enchantment, e.getCursor());
+                            anvil.i(output, null);
                             e.setCursor(tempInv);
                         }
                     } else {
@@ -144,6 +146,7 @@ public class AnvilGui {
                             e.setCursor(tempInv);
                             return;
                         }
+                        return;
                     }
 
                     Enchantment enchant = null;
@@ -156,13 +159,13 @@ public class AnvilGui {
                         }
                     }
 
-                    if(tooEnchant.containsEnchantment(enchant)) {
-                        int level = tooEnchant.getEnchantmentLevel(enchant);
+                    if(tooEnchant.getEnchantments().containsKey(enchant)) {
+                        int level = tooEnchant.getEnchantments().get(enchant);
+                        System.out.println(level);
                         if(level == enchLevel && level + 1 > enchant.getMaxLevel()) {
                             return;
                         }
                     }
-                    System.out.println(enchant.canEnchantItem(tooEnchant));
                     if(enchant.canEnchantItem(tooEnchant)) {
                         ItemStack finalStack = tooEnchant.clone();
 
