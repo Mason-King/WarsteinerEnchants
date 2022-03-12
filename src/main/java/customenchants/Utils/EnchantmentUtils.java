@@ -3,9 +3,11 @@ package customenchants.Utils;
 import customenchants.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.StringUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -171,6 +173,8 @@ public final class EnchantmentUtils
                 .replace("{roman}", Roman.toRoman(level))
                 .replace("{level}", level + "")));
 
+        im.getPersistentDataContainer().set(NamespacedKey.randomKey(), PersistentDataType.INTEGER, new Random().nextInt(Integer.MAX_VALUE));
+
         book.setItemMeta(im);
 
         book.addUnsafeEnchantment(enchantment, level);
@@ -181,8 +185,6 @@ public final class EnchantmentUtils
 
     public static Enchantment getEnchant(String name) {
         Set<Enchantment> enchants = Main.getEnchantmentManager().getCustomEnchantments();
-
-        System.out.println(enchants);
 
         for(Enchantment e : enchants) {
             if(e.getName().equalsIgnoreCase(name)) {

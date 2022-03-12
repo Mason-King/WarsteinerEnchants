@@ -161,7 +161,6 @@ public class AnvilGui {
 
                     if(tooEnchant.getEnchantments().containsKey(enchant)) {
                         int level = tooEnchant.getEnchantments().get(enchant);
-                        System.out.println(level);
                         if(level == enchLevel && level + 1 > enchant.getMaxLevel()) {
                             return;
                         }
