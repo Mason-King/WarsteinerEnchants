@@ -23,8 +23,9 @@ public class CeCommand implements CommandExecutor {
         } else {
             if(args[0].equalsIgnoreCase("book")) {
                 //enchanted book
+                if(!p.hasPermission("enchants.give")) return false;
                 if(args.length < 3) {
-                    p.sendMessage(EnchantmentUtils.color(main.getConfig().getString("messages.incorrectUsage/")));
+                    p.sendMessage(EnchantmentUtils.color(main.getConfig().getString("messages.incorrectUsage")));
                     return false;
                 } else {
                     String enchantName = args[1];
